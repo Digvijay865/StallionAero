@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stallion Aero | Our Team</title>
+     <link rel="icon" href="logo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00c6ff;
+            --secondary: #0072ff;
+            --accent: #00ffcc;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #ffffff;
+            --gray: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Video Background */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10, 10, 26, 0.85), rgba(5, 5, 16, 0.9));
+            z-index: -1;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: rgba(5, 5, 16, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 198, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+            margin-left: auto;
+        }
+
+        .title span {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 8px var(--primary);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--light);
+            z-index: 101;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Domain Tabs */
+        .domain-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .domain-tab {
+            padding: 0.8rem 1.5rem;
+            background: rgba(10, 10, 26, 0.7);
+            border: 1px solid rgba(0, 198, 255, 0.1);
+            border-radius: 30px;
+            color: var(--gray);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .domain-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 198, 255, 0.2);
+        }
+
+        .domain-tab.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* Team Grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .team-card {
+            background: rgba(10, 10, 26, 0.7);
+            border: 1px solid rgba(0, 198, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            display: block; /* Ensure all cards are visible by default */
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 198, 255, 0.2);
+            border-color: var(--primary);
+        }
+
+        .team-card.lead {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 25px rgba(0, 198, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card.lead::before {
+            content: 'Team Lead';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 5px 30px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transform: rotate(45deg);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .member-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 3px solid var(--primary);
+            padding: 3px;
+            background: var(--darker);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .member-photo::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, var(--primary), transparent, var(--secondary));
+            border-radius: 50%;
+            z-index: -1;
+            animation: rotate 3s linear infinite;
+        }
+
+        .team-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .team-role {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .team-domain {
+            display: inline-block;
+            background: rgba(0, 198, 255, 0.1);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 198, 255, 0.3);
+        }
+
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .team-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 198, 255, 0.3);
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .team-social a:hover {
+            background-color: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* Domain Description */
+        .domain-info {
+            background: rgba(10, 10, 26, 0.7);
+            border: 1px solid rgba(0, 198, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .domain-info:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(0, 198, 255, 0.2);
+        }
+
+        .domain-info h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .domain-info p {
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        /* Animation */
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .nav-links li {
+                margin-left: 1.2rem;
+            }
+            
+            .nav-links a {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .nav-links li {
+                margin-left: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(5, 5, 16, 0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.5s ease;
+                padding: 2rem;
+                z-index: 100;
+            }
+
+            .nav-links.active {
+                left: 0;
+                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+            }
+
+            .nav-links li {
+                margin: 1.2rem 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-links a {
+                display: block;
+                padding: 0.8rem;
+                font-size: 1.2rem;
+            }
+
+            .domain-tabs {
+                flex-direction: row;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 0.5rem;
+                scrollbar-width: thin;
+            }
+            
+            .domain-tabs::-webkit-scrollbar {
+                height: 5px;
+            }
+            
+            .domain-tabs::-webkit-scrollbar-thumb {
+                background: var(--primary);
+                border-radius: 10px;
+            }
+
+            .domain-tab {
+                flex: 0 0 auto;
+                white-space: nowrap;
+            }
+
+            .team-section {
+                padding: 3rem 0;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .team-card {
+                padding: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .logo {
+                height: 35px;
+            }
+            
+            .title {
+                font-size: 1.3rem;
+                margin-left: 8px;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            
+            .team-card {
+                padding: 1rem;
+            }
+            
+            .member-photo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .team-card h3 {
+                font-size: 1.3rem;
+            }
+            
+            .team-card.lead::before {
+                top: 12px;
+                right: -32px;
+                font-size: 0.7rem;
+                padding: 4px 30px;
+            }
+            
+            .domain-info {
+                padding: 1.2rem;
+            }
+            
+            .domain-info h3 {
+                font-size: 1.5rem;
+            }
+            
+            .team-social a {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .title {
+                font-size: 1.1rem;
+            }
+            
+            .domain-tab {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.8rem;
+            }
+            
+            .team-card.lead::before {
+                top: 10px;
+                right: -35px;
+                font-size: 0.65rem;
+                padding: 3px 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="fighterjet1.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo-container">
+                <img src="logo1.png" alt="Stallion Aero Logo" class="logo">
+                <div class="title">Stallion Aero</div>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="achievements.html">Achievements</a></li>
+                <li><a href="domains.html">Domains</a></li>
+                <li><a href="archives.html">Archives</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="index.html">Join Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Team Section -->
+    <section class="team-section" id="team">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Team</h2>
+                <p>Meet the brilliant minds behind Stallion Aero's aerospace innovations</p>
+            </div>
+
+            <!-- Domain Tabs -->
+            <div class="domain-tabs">
+                <div class="domain-tab active" data-domain="all">All Members</div>
+                <div class="domain-tab" data-domain="Team_Captain">Team Captain</div>
+                <div class="domain-tab" data-domain="avionics">Avionics</div>
+                <div class="domain-tab" data-domain="design">Design</div>
+                <div class="domain-tab" data-domain="analysis">Analysis</div>
+                <div class="domain-tab" data-domain="nontech">Non-Tech</div>
+            </div>
+
+            <!-- Domain Info -->
+            <div class="domain-info" id="domainInfo">
+                <h3>STES Stallion Aero</h3>
+                <p>Our team is divided into four specialized branches, each focusing on a critical aspect of UAV development and operations:</p>
+                <br>
+                <p><strong>Avionics</strong> - Works on the electronic systems of UAVs, including flight controllers, sensors, communication systems, and automation for safe and reliable operations.</p>
+                <br>
+                <p><strong>Design</strong> - Focuses on creating and optimizing UAV structures, aerodynamics, and innovative configurations to ensure performance and stability.</p>
+                <br>
+                <p><strong>Analysis</strong> - Handles performance evaluation, simulations, computational studies (aerodynamics, structures, CFD, etc.), and data-driven improvements.</p>
+                <br>
+                <p><strong>Non-Tech</strong> - Manages operations beyond engineering, including documentation, event coordination, outreach, sponsorships, and overall team management.</p>
+                <br>
+                <p>Together, these domains collaborate to balance technical innovation and operational efficiency, driving the team toward successful UAV development.</p>
+            </div>
+
+            <!-- Team Grid -->
+            <div class="team-grid">
+                <!-- Team Captain --> 
+                <div class="team-card lead" data-domain="Team_Captain">
+                    <div class="member-photo">
+                        <img src="" alt="Tushar Giri">
+                    </div>
+                    <h3>Tushar Giri</h3>
+                    <div class="team-role">Team Captain</div>
+                    <div class="team-domain">Captain</div>
+                    <p>Currently Pursuing Electronics and Telecommunication Engineering at SKNCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <!-- Avionics Team -->
+                <div class="team-card lead" data-domain="avionics">
+                    <div class="member-photo">
+                        <img src="" alt="Subhodh Bhore">
+                    </div>
+                    <h3>Subhodh Bhore</h3>
+                    <div class="team-role">Avionics Team Lead</div>
+                    <div class="team-domain">Avionics</div>
+                    <p>Currently Pursuing Electronics and Telecommunication Engineering at SKNCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-card" data-domain="avionics">
+                    <div class="member-photo">
+                        <img src="" alt="Ankita Gonage">
+                    </div>
+                    <h3>Ankita Gonage</h3>
+                    <div class="team-role">Avionics Engineer</div>
+                    <div class="team-domain">Avionics</div>
+                    <p>Currently Pursuing Electronics and Telecommunication Engineering at SKNCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <!-- Design Team -->
+                <div class="team-card lead" data-domain="design">
+                    <div class="member-photo">
+                        <img src=" " alt="Saurabh Patil">
+                    </div>
+                    <h3>Saurabh Patil</h3>
+                    <div class="team-role">Design Team Lead</div>
+                    <div class="team-domain">Design</div>
+                    <p>Currently Pursuing Mechnanical Engineering at SCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-card" data-domain="design">
+                    <div class="member-photo">
+                        <img src=" " alt="Atharva Konde">
+                    </div>
+                    <h3>Atharva Konde</h3>
+                    <div class="team-role">Design Engineer</div>
+                    <div class="team-domain">Design</div>
+                    <p>Currently Pursuing Computer Engineering at SCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-card" data-domain="design">
+                    <div class="member-photo">
+                        <img src=" " alt="Ganesh Ghule">
+                    </div>
+                    <h3>Ganesh Ghule</h3>
+                    <div class="team-role">Design Engineer</div>
+                    <div class="team-domain">Design</div>
+                    <p>Currently Civil Engineering at SCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <!-- Analysis Team -->
+                <div class="team-card lead" data-domain="analysis">
+                    <div class="member-photo">
+                        <img src=" " alt="Digvijay Gavane">
+                    </div>
+                    <h3>Digvijay Gavane</h3>
+                    <div class="team-role">Analysis Team Lead</div>
+                    <div class="team-domain">Analysis</div>
+                    <p>Currently Pursuing Computer Engineering at SCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-card" data-domain="analysis">
+                    <div class="member-photo">
+                        <img src=" " alt="Ganesh Ghule">
+                    </div>
+                    <h3>Ganesh Ghule</h3>
+                    <div class="team-role">Analysis Engineer</div>
+                    <div class="team-domain">Analysis</div>
+                    <p>Currently Pursuing Civil Engineering at SCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-card" data-domain="analysis">
+                    <div class="member-photo">
+                        <img src=" " alt="Somesh Kalyankar">
+                    </div>
+                    <h3>Somesh Kalyankar</h3>
+                    <div class="team-role">Analysis Engineer</div>
+                    <div class="team-domain">Analysis</div>
+                    <p>Currently Pursuing Computer Engineering at SCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <!-- Non-Tech Team -->
+                <div class="team-card lead" data-domain="nontech">
+                    <div class="member-photo">
+                        <img src=" " alt="Abhaya Sambare">
+                    </div>
+                    <h3>Abhaya Sambare</h3>
+                    <div class="team-role">Non-Tech Team Lead</div>
+                    <div class="team-domain">Non-Tech</div>
+                    <p>Currently Pursuing Civil Engineering at SCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-card" data-domain="nontech">
+                    <div class="member-photo">
+                        <img src=" " alt="Saurabh Patil">
+                    </div>
+                    <h3>Saurabh Patil</h3>
+                    <div class="team-role">NonTech Team</div>
+                    <div class="team-domain">Presentation</div>
+                    <p>Currently Pursuing Mechnanical Engineering at SCOE</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.querySelector('i').classList.toggle('fa-bars');
+            menuToggle.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.querySelector('i').classList.add('fa-bars');
+                menuToggle.querySelector('i').classList.remove('fa-times');
+            });
+        });
+
+        // Domain Tabs Functionality
+        const domainTabs = document.querySelectorAll('.domain-tab');
+        const teamCards = document.querySelectorAll('.team-card');
+        const domainInfo = document.getElementById('domainInfo');
+        
+        // Domain descriptions
+        const domainDescriptions = {
+            all: {
+                title: "Our Team",
+                description: "Meet the talented individuals who make up the STES Stallion Aero team. Our multidisciplinary team works together to push the boundaries of aerospace innovation."
+            },
+            Team_Captain: {
+                title: "Team Captain",
+                description: "Tushar Giri, an intern at DRDO, serves as the Team Captain, showcasing strong leadership, technical expertise, and problem-solving skills. He effectively coordinates team tasks, fosters collaboration, and ensures timely and high-quality project outcomes. With a passion for defense research and innovation, Tushar leads by example, inspiring his team to achieve excellence in every challenge."
+            },
+            avionics: {
+                title: "Avionics Team",
+                description: "Our Avionics team specializes in advanced flight electronics, control systems, and communication systems for next-generation aircraft. They work on cutting-edge technology to ensure precision, reliability, and safety in aerospace systems."
+            },
+            design: {
+                title: "Design Team",
+                description: "Our Design team focuses on concept design, CAD modeling, and aerodynamic simulation for innovative aerospace solutions. They transform ideas into detailed technical specifications and 3D models."
+            },
+            analysis: {
+                title: "Analysis Team",
+                description: "Our Analysis team conducts research, testing, and performance data analysis to optimize aircraft design and performance. They use advanced simulation tools to validate designs and ensure optimal performance."
+            },
+            nontech: {
+                title: "Non-Tech Team",
+                description: "Our Non-Tech team manages operations, outreach, event management, and business development for our aerospace initiatives. They ensure smooth operations and effective communication with stakeholders."
+            }
+        };
+
+        // Set active tab and show corresponding team members
+        domainTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                domainTabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Get the domain
+                const domain = tab.getAttribute('data-domain');
+                
+                // Update domain info
+                domainInfo.innerHTML = `
+                    <h3>${domainDescriptions[domain].title}</h3>
+                    <p>${domainDescriptions[domain].description}</p>
+                `;
+                
+                // Show/hide team members based on domain
+                teamCards.forEach(card => {
+                    if (domain === 'all' || card.getAttribute('data-domain') === domain) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Initialize with all members shown
+        domainTabs[0].classList.add('active');
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <title>Stallion Aero — Professional High‑Tech Website</title>
+  <meta name="description" content="Stallion Aero — student-led aerospace team: Avionics, Analysis, Non-Tech, Design." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#05060a;
+      --card:#0e1115;
+      --muted:#9aa2ab;
+      --neon:#00e6ff;
+      --glass:rgba(255,255,255,0.03);
+      --glass-2:rgba(255,255,255,0.02);
+      --width-max:1200px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:#eaf6fb;font-family:Inter,system-ui,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+
+    /* -- Layout -- */
+    .page{min-height:100vh;display:flex;flex-direction:column}
+
+    /* -- Background video & overlay -- */
+    .bg-video{position:fixed;inset:0;z-index:-30;overflow:hidden}
+    .bg-video video{width:100%;height:100%;object-fit:cover;filter:contrast(.9) brightness(.32)}
+    .bg-dim{position:fixed;inset:0;background:linear-gradient(180deg, rgba(2,6,10,.2), rgba(2,6,10,.7));z-index:-20}
+
+    /* subtle animated gradient lines */
+    .bg-lines{position:fixed;inset:0;pointer-events:none;z-index:-10;opacity:.06}
+
+    /* header */
+    header{position:sticky;top:0;z-index:60;padding:14px 6vw;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(6px);background:rgba(5,6,10,0.8)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:50px;height:50px;border-radius:10px;background:linear-gradient(135deg,var(--neon),#2ec8ff);display:flex;align-items:center;justify-content:center;color:#031014;font-weight:800;font-family:Orbitron}
+    .brand .title{font-weight:700}
+    
+    /* Mobile navigation */
+    nav{display:flex;gap:18px;align-items:center}
+    nav ul {
+      display: flex;
+      gap: 18px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .nav-link{position:relative;padding:8px 10px;border-radius:10px;font-weight:600;transition:transform .18s}
+    .nav-link:focus{outline:2px solid rgba(0,230,255,.12)}
+    .nav-link:hover{transform:translateY(-3px)}
+    .nav-link::after{content:'';position:absolute;left:12px;right:12px;bottom:-6px;height:4px;border-radius:12px;background:linear-gradient(90deg,var(--neon),rgba(0,230,255,.2));opacity:0;transform:translateY(6px);transition:all .25s}
+    .nav-link:hover::after{opacity:1;transform:translateY(0)}
+
+    .cta{padding:10px 16px;border-radius:10px;font-weight:700;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);box-shadow:0 10px 30px rgba(0,230,255,0.06);position:relative}
+    .cta .inner-glow{position:absolute;inset:0;filter:blur(14px);opacity:.7;pointer-events:none}
+
+    /* Mobile menu toggle - moved to right */
+    #menu-toggle {
+      display: none;
+      background: var(--neon);
+      color: #000;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 100;
+      order: 2; /* This moves it to the right */
+    }
+
+    /* hero */
+    .hero{min-height:76vh;display:flex;align-items:center;padding:64px 6vw}
+    .container{max-width:var(--width-max);margin:0 auto;width:100%}
+    .hero-grid{display:grid;grid-template-columns:1fr 420px;gap:36px;align-items:center}
+
+    .eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:linear-gradient(90deg,var(--neon),rgba(0,230,255,.12));color:#011214;font-weight:700;font-family:Orbitron;margin-bottom:18px}
+    h1{font-family:Orbitron;font-size:clamp(30px,3.6vw,48px);margin:0 0 12px;line-height:1.02}
+    p.lead{color:var(--muted);margin:0 0 20px;max-width:62ch;font-size:clamp(14px, 1.8vw, 16px);}
+
+    .hero-actions{display:flex;gap:12px;margin-top:18px;flex-wrap: wrap;}
+
+    /* domains grid */
+    .domains-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px}
+    .card{background:linear-gradient(180deg,var(--glass),var(--glass-2));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);transition:transform .28s,box-shadow .28s}
+    .card:hover{transform:translateY(-10px);box-shadow:0 30px 60px rgba(0,230,255,0.06);border-color:rgba(0,230,255,0.12)}
+    .card h4{margin:0 0 8px;font-family:Orbitron;font-size:16px;}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));padding:22px;border-radius:14px;border:1px solid rgba(255,255,255,0.03)}
+
+    /* sections */
+    section{padding:56px 6vw}
+    .section-title{display:flex;align-items:center;gap:12px}
+    .title-underline{height:6px;width:88px;border-radius:99px;background:linear-gradient(90deg,var(--neon),rgba(0,230,255,.14));display:inline-block}
+
+    /* achievements */
+    .ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .ach-item{padding:20px;border-radius:12px;background:var(--card);text-align:center}
+    .ach-item h3{margin:0;font-family:Orbitron;font-size:18px;}
+    .ach-item p{margin:8px 0 0;color:var(--muted);font-size:14px;}
+
+    /* gallery - changed from carousel to grid */
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.03);transition:transform .3s ease, box-shadow .3s ease}
+    .gallery img:hover{transform:scale(1.05);box-shadow:0 0 20px #00bfff, 0 0 40px #00bfff}
+
+    .instagram-link{display:inline-block;margin-top:12px;padding:10px 16px;border-radius:10px;font-weight:700;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);box-shadow:0 10px 30px rgba(0,230,255,0.06);position:relative}
+    .instagram-link .inner-glow{position:absolute;inset:0;filter:blur(14px);opacity:.7;pointer-events:none}
+
+    /* sponsorship */
+    #sponsorship{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:56px 6vw}
+    #sponsorship h2{font-family:Orbitron;margin:0 0 12px}
+    #sponsorship p{color:var(--muted);margin:0 0 20px}
+    #sponsorship .sponsor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+    #sponsorship .sponsor-grid img{width:100%;height:80px;object-fit:contain;border-radius:8px;border:1px solid rgba(255,255,255,0.03);transition:transform .28s}
+    #sponsorship .sponsor-grid img:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,230,255,0.06);border-color:rgba(0,230,255,0.12)}
+
+    /* join */
+    .join-grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .form .field{margin-bottom:10px}
+    input,textarea,select{width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+    button[type=submit]{cursor:pointer}
+
+    /* footer */
+    footer{padding:28px 6vw;border-top:1px solid rgba(255,255,255,0.02);color:var(--muted)}
+
+    /* Sponsorship Section */
+    .sponsors {
+      text-align: center;
+      padding: 50px 20px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      border-top: 2px solid cyan;
+      overflow: hidden;
+    }
+
+    .sponsor-title {
+      font-size: 28px;
+      color: cyan;
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px cyan;
+    }
+
+    /* Carousel Container */
+    .sponsor-carousel {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      height: 100px;
+    }
+
+    /* Track for Smooth Scroll */
+    .carousel-track-sponsor {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+      width: max-content;
+      animation: scroll 25s linear infinite;
+    }
+
+    /* Clickable Logos */
+    .carousel-track-sponsor a {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    /* Logo Style */
+    .carousel-track-sponsor img {
+      height: 80px;
+      filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.6));
+      transition: transform 0.3s ease, filter 0.3s ease;
+      cursor: pointer;
+    }
+
+    .carousel-track-sponsor a:hover img {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.9));
+    }
+
+    /* Keyframes for Infinite Loop */
+    @keyframes scroll {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Pause on Hover */
+    .sponsor-carousel:hover .carousel-track-sponsor {
+      animation-play-state: paused;
+    }
+
+    /* Neon glow hover effect for icons */
+  .social-icons a {
+    color: #fff;
+    font-size: 24px;
+    transition: 0.3s;
+  }
+  .social-icons a:hover {
+    color: #00bfff;
+    text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 30px #00bfff;
+    transform: scale(1.2);
+  }
+  /* Make map responsive */
+  .map-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  .map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      
+      .join-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .domains-grid, .ach-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      #sponsorship .sponsor-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 4vw;
+      }
+      
+      .hero {
+        padding: 40px 4vw;
+        min-height: auto;
+      }
+      
+      section {
+        padding: 40px 4vw;
+      }
+      
+      .ach-grid, .domains-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+      
+      #sponsorship .sponsor-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .sponsor-carousel {
+        height: 80px;
+      }
+      
+      .carousel-track-sponsor img {
+        height: 60px;
+      }
+      
+      footer .container {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      /* Show mobile menu toggle */
+      #menu-toggle {
+        display: block;
+      }
+      
+      /* Hide desktop nav */
+      nav {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: var(--bg);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 50;
+      }
+      
+      nav.active {
+        display: flex;
+      }
+      
+      nav ul {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+      }
+      
+      .nav-link {
+        font-size: 18px;
+        padding: 12px 20px;
+      }
+      
+      .brand .title {
+        font-size: 18px;
+      }
+      
+      .logo {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .panel {
+        padding: 16px;
+      }
+      
+      .sponsor-carousel {
+        height: 60px;
+      }
+      
+      .carousel-track-sponsor img {
+        height: 50px;
+      }
+      
+      .sponsor-title {
+        font-size: 24px;
+      }
+      
+      input, textarea, select {
+        min-height: 44px;
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 28px;
+      }
+      
+      .eyebrow {
+        font-size: 14px;
+      }
+      
+      .section-title h2 {
+        font-size: 24px;
+      }
+      
+      .card, .ach-item {
+        padding: 14px;
+      }
+      
+      #sponsorship .sponsor-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .sponsor-carousel {
+        height: 50px;
+      }
+      
+      .carousel-track-sponsor img {
+        height: 40px;
+      }
+      
+      .sponsor-title {
+        font-size: 20px;
+      }
+    }
+
+    /* small reveal animation */
+    .reveal{opacity:0;transform:translateY(12px);transition:all .7s cubic-bezier(.2,.9,.3,1)}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* accessibility */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <div class="bg-video" aria-hidden="true">
+    <!-- Replace the src with your own fighter-jet MP4 hosted securely -->
+    <video autoplay muted loop playsinline>
+      <source src="fighterjet1.mp4" type="video/mp4" position="auto-fit">
+    </video>
+  </div>
+  <div class="bg-dim" aria-hidden="true"></div>
+  <svg class="bg-lines" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="auto">
+    <defs>
+      <linearGradient id="lg" x1="0" x2="1">
+        <stop offset="0" stop-color="#00e6ff" stop-opacity=".16" />
+        <stop offset="1" stop-color="#00e6ff" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <path d="M0 10 Q400 140 1200 10 T2400 10" stroke="url(#lg)" stroke-width="1" fill="none" />
+  </svg>
+
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+            <img src="logo1.png" width="75px" alt="STES-STALLION AERO Logo">
+        </div>
+        <div>
+          <div class="title">Stallion Aero</div>
+        </div>
+      </div>
+
+      <button id="menu-toggle" aria-label="Toggle navigation menu">☰</button>
+
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a class="nav-link" href="#home">Home</a></li>
+          <li><a class="nav-link" href="achievements.html">Achievements</a></li>
+          <li><a class="nav-link" href="domains.html">Domains</a></li>
+          <li><a class="nav-link" href="gallery.html" target="_blank">Gallery</a></li>
+          <li><a class="nav-link" href="#sponsorship">Sponsorship</a></li>
+          <li><a class="nav-link" href="archives.html">Archives</a></li>
+          <li><a class="nav-link cta" href="joinus.html">Join Us <span class="inner-glow"></span></a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home" class="hero">
+        <div class="container">
+          <div class="hero-grid">
+            <div>
+              <span class="eyebrow">STES — Stallion Aero</span>
+              <h1>Where innovation Takes Flight - STES Stallion Aero</h1>
+              <p class="lead">✨ About STES Stallion Aero ✨<br>
+
+Founded in 2017, STES Stallion Aero is a passionate student club dedicated to the design, innovation, and research of UAVs (Unmanned Aerial Vehicles) and Fixed-Wing Aircraft. 🚀✈️
+
+<br>Over the years, our team has achieved remarkable milestones:
+<br>🏆 AIR 1 (2020) – for Video Representation at SAEINDIA
+<br>🏆 AIR 4 (2023) – at SAEINDIA DDC
+
+<br>We are driven by innovation, teamwork, and the vision to push the boundaries of aeronautical engineering and drone technology.</p>
+
+              <div class="hero-actions">
+                <a class="cta" href="domains.html">Explore Domains</a>
+                <a class="cta" href="#join">Apply Now</a>
+              </div>
+
+              <div class="domains-grid reveal" aria-hidden="false">
+                <div class="card">
+                  <h4>Avionics</h4>
+                  <p>Embedded systems, flight controllers, telemetry and sensor integration for UAVs.</p>
+                </div>
+                <div class="card">
+                  <h4>Analysis</h4>
+                  <p>CFD, flight-data processing, instrumentation and performance modelling.</p>
+                </div>
+                <div class="card">
+                  <h4>Non‑Tech</h4>
+                  <p>Project operations, outreach, logistics, sponsorship and events.</p>
+                </div>
+                <div class="card">
+                  <h4>Design</h4>
+                  <p>CAD, structural design, prototype fabrication and manufacturing planning.</p>
+                </div>
+              </div>
+            </div>
+
+            <aside class="panel reveal" aria-labelledby="latest-heading">
+              <h3 id="latest-heading" style="margin-top:0;font-family:Orbitron">Current Project</h3>
+              <p style="color:var(--muted);margin-top:6px">STES Stallion Aero will Participate in Autonomous Drones Competition <br> our main Aim is to achieve More than 3kg Payload with Model weight of 1kg</p>
+
+              <dl style="display:flex;gap:18px;margin-top:12px;color:var(--muted)">
+                <div><dt style="font-weight:700">Team</dt><dd style="margin:6px 0 0">11</dd></div>
+                <div><dt style="font-weight:700">Payload</dt><dd style="margin:6px 0 0">3kg</dd></div>
+              </dl>
+
+              <div style="margin-top:16px"><a class="cta" href="https://youtu.be/PqCl8Tx2YFg?si=jG_xmMKgzi9s1Vdf">Watch Clips</a></div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section id="achievements">
+        <div class="container">
+          <div class="section-title">
+            <h2 style="font-family:Orbitron;margin:0">Achievements</h2>
+            <span class="title-underline"></span>
+          </div>
+
+          <div style="height:18px"></div>
+          <div class="ach-grid">
+            <div class="ach-item reveal"><h3>Air 1 SAE INDIA</h3><p>Video Representation(National)</p></div>
+            <div class="ach-item reveal"><h3>Air 2</h3><p> Overall RCA(National)</p></div>
+            <div class="ach-item reveal"><h3>Air 4</h3><p>In Overall MCA(National) (2023–2024)</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="domains">
+        <div class="container">
+          <div class="section-title">
+            <h2 style="font-family:Orbitron;margin:0">Domains</h2>
+            <span class="title-underline"></span>
+          </div>
+
+          <div style="height:18px"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="panel reveal">
+              <h3 style="font-family:Orbitron">Avionics</h3>
+              <p style="color:var(--muted)">Embedded systems, sensors, autopilots and flight controllers. PCB, sensor fusion and real-time control loops.</p>
+            </div>
+            <div class="panel reveal">
+              <h3 style="font-family:Orbitron">Analysis</h3>
+              <p style="color:var(--muted)">CFD, flight-data analysis, instrumentation and performance modelling for validation.</p>
+            </div>
+            <div class="panel reveal">
+              <h3 style="font-family:Orbitron">Non‑Tech</h3>
+              <p style="color:var(--muted)">Operations, outreach, sponsorship, event planning and project management.</p>
+            </div>
+            <div class="panel reveal">
+              <h3 style="font-family:Orbitron">Design</h3>
+              <p style="color:var(--muted)">Concept design, CAD, structural layout, and manufacturing planning.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="sponsors" id="sponsorship">
+        <h2 class="sponsor-title">Our Proud Sponsors</h2>
+        <div class="sponsor-carousel">
+          <div class="carousel-track-sponsor">
+            <!-- Original Set -->
+            <a href="https://www.redbull.com/in-en" target="_blank"><img src="redbull.jpeg" alt="RedBull"></a>
+            <a href="https://www.solidworks.com/" target="_blank"><img src="solidworks.png" alt="Solidworks"></a>
+            <a href="https://www.monsterenergy.com/en-in/" target="_blank"><img src="uav.jpeg" alt="UAV"></a>
+            <a href="https://www.drdo.gov.in/drdo/unmanned-aerial-systems-uas" target="_blank"><img src="monsterenergy.png" alt="Monster Energy"></a>
+            <a href="https://www.drdo.gov.in/drdo/unmanned-aerial-systems-uas" target="_blank"><img src="hexagon.png" alt="Hexagon"></a>
+            <a href="https://www.autodesk.com/" target="_blank"><img src="autodesk.png" alt="Autodesk" style="height:40px"></a>
+            <a href="https://www.ansys.com/" target="_blank"><img src="ansys.png" alt="Ansys" style="height:40px"></a>
+            <a href="https://www.mathworks.com/" target="_blank"><img src="matlab.png" alt="Matlab" style="height:40px"></a>
+            <a href="https://www.3ds.com/" target="_blank"><img src="catia.png" alt="Catia" style="height:40px"></a>
+
+            <!-- Duplicate Set for Seamless Infinite Loop -->
+            <a href="https://www.redbull.com/in-en" target="_blank"><img src="redbull.jpeg" alt="RedBull"></a>
+            <a href="https://www.solidworks.com/" target="_blank"><img src="solidworks.png" alt="Solidworks"></a>
+            <a href="https://www.monsterenergy.com/en-in/" target="_blank"><img src="uav.jpeg" alt="UAV"></a>
+            <a href="https://www.drdo.gov.in/drdo/unmanned-aerial-systems-uas" target="_blank"><img src="monsterenergy.png" alt="Monster Energy"></a>
+            <a href="https://hexagon.com/" target="_blank"><img src="hexagon.png" alt="Hexagon" style="height:40px"></a>
+            <a href="https://www.autodesk.com/" target="_blank"><img src="autodesk.png" alt="Autodesk" style="height:40px"></a>
+            <a href="https://www.ansys.com/" target="_blank"><img src="ansys.png" alt="Ansys" style="height:40px"></a>
+            <a href="https://www.mathworks.com/" target="_blank"><img src="matlab.png" alt="Matlab" style="height:40px"></a>
+            <a href="https://www.3ds.com/" target="_blank"><img src="catia.png" alt="Catia" style="height:40px"></a>
+          </div>
+        </div>
+      </section>
+
+      <section id="gallery">
+        <div class="container">
+          <div class="section-title">
+            <h2 style="font-family:Orbitron;margin:0">Gallery</h2>
+            <span class="title-underline"></span>
+          </div>
+
+          <div style="height:18px"></div>
+          <!-- Changed from carousel to grid -->
+          <div class="gallery">
+            <img src="2017-18.jpg" alt="AERO 2017-18">
+            <img src="2018-19.jpg" alt="AERO 2018-19">
+            <img src="2022-23.jpg" alt="AERO 2022-23">
+            <img src="2023-24.jpg" alt="AERO 2023-24"> 
+            <img src="stallion19-20.jpg" alt="AERO 2019-20">
+            <img src="techfest22-23.jpg" alt="AERO 2022-23">
+          </div>
+        </div>
+      </section>
+
+      <section id="join">
+        <div class="container">
+          <div class="section-title">
+            <h2 style="font-family:Orbitron;margin:0">Join Us</h2>
+            <span class="title-underline"></span>
+          </div>
+
+          <div style="height:18px"></div>
+          <div class="join-grid">
+            <form class="panel form reveal" onsubmit="event.preventDefault();alert('Demo form — connect to backend to capture submissions');">
+              <div class="field"><label>Full name<input placeholder="Full name" required></label></div>
+              <div class="field"><label>Email<input type="email" placeholder="Email" required></label></div>
+              <div class="field"><input placeholder="College / Department"></div>
+              <div class="field">
+                <select>
+                  <option>Choose Domain</option>
+                  <option>Avionics</option>
+                  <option>Analysis</option>
+                  <option>Non-Tech</option>
+                  <option>Design</option>
+                </select>
+              </div>
+              <div class="field"><textarea rows="4" placeholder="Tell us about your interest"></textarea></div>
+              <div style="display:flex;gap:10px;align-items:center"><button class="cta" type="submit">Apply</button><small style="color:var(--muted)">We'll reach out via email</small></div>
+            </form>
+
+            <aside class="panel reveal">
+              <h3 style="font-family:Orbitron">Why join?</h3>
+              <p style="color:var(--muted)">Hands-on projects, workshops, mentorship and real flight-testing experience. Roles for technical and non-technical members.</p>
+              <div style="margin-top:16px"><a class="cta" href="https://www.linkedin.com/in/stes-stallion-aero-3358492a1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" onclick="alert('Contact:stallionaero_skncoe@sinhgad.edu')">Contact</a></div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>© Stallion Aero — Built with passion</div>
+        <a href="#" class="cta" style="margin-top:8px">Back to top</a>
+      </div>
+      
+      <div style="background: #0a0a0a; color: #fff; padding: 40px 20px; font-family: Arial, sans-serif; text-align: center;">
+        <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px;">
+          
+          <!-- Location and Contact -->
+          <div style="flex: 1; min-width: 250px; text-align: left;">
+            <h3 style="color: #00bfff; margin-bottom: 15px;">Contact Us</h3>
+            <p><strong>Location:</strong> Sinhgad College of Engineering, Pune, India</p>
+            <p><strong>Email:</strong> 
+              <a href="mailto:stallionaero_skncoe@sinhgad.edu" style="color: #00bfff; text-decoration: none;">stallionaero_skncoe@sinhgad.edu</a>
+            </p>
+            <p><strong>Phone:</strong> 
+              <a href="tel:+919226185452" style="color: #00bfff; text-decoration: none;">+91 92261 85452</a>
+            </p>
+          </div>
+
+          <!-- Quick Links -->
+          <div style="flex: 1; min-width: 250px; text-align: left;">
+            <h3 style="color: #00bfff; margin-bottom: 15px;">Quick Links</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              <li><a href="#home" style="color: #fff; text-decoration: none;">Home</a></li>
+              <li><a href="#achievements" style="color: #fff; text-decoration: none;">Achievements</a></li>
+              <li><a href="#domains" style="color: #fff; text-decoration: none;">Domains</a></li>
+              <li><a href="#gallery" style="color: #fff; text-decoration: none;">Gallery</a></li>
+              <li><a href="#join" style="color: #fff; text-decoration: none;">Join Us</a></li>
+            </ul>
+          </div>
+
+          <!-- Social Media -->
+          <div style="flex: 1; min-width: 250px; text-align: left;">
+            <h3 style="color: #00bfff; margin-bottom: 15px;">Follow Us</h3>
+            <div class="social-icons" style="display: flex; gap: 15px;">
+              <a href="https://instagram.com/stallionaero" target="_blank">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://linkedin.com/company/stallionaero" target="_blank">
+                <i class="fab fa-linkedin"></i>
+              </a>
+              <a href="https://www.youtube.com/channel/UCi0ljdkNgHEVhnxodhhnMng" target="_blank">
+                <i class="fab fa-youtube"></i>
+              </a>
+              <a href="https://x.com/StallionAero?t=SZIYeR9kGRstU4BbfdK1zw&s=09" target="_blank">
+                <i class="fab fa-x-twitter"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Location and Map -->
+          <div style="flex: 1; min-width: 300px; text-align: left;">
+            <h3 style="color: #00bfff; margin-bottom: 15px;">Our Location</h3>
+            <div class="map-container">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d946.0944182586637!2d73.83549168705945!3d18.466544334120762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2954c2482cba5%3A0x6223f5d2544ac9bb!2sShrimati%20Kashibai%20Navale%20College%20of%20Engineering%20(Administration%20Building)!5e0!3m2!1sen!2sin!4v1755920097515!5m2!1sen!2sin"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copyright -->
+        <div style="margin-top: 30px; font-size: 14px; color: #aaa;">
+          &copy; 2025 Stallion Aero. All Rights Reserved.
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // reveal on scroll
+    const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }) },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (ev)=>{
+        const t = document.querySelector(a.getAttribute('href'));
+        if(t){ev.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+      });
+    });
+    
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.querySelector('nav').classList.toggle('active');
+    });
+    
+    // Close menu when clicking on a link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelector('nav').classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html>

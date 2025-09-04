@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <title>Stallion Aero - Archives</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-cyan: #00f7ff;
+            --neon-purple: #bd00ff;
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050510;
+            --card-bg: rgba(15, 15, 35, 0.7);
+        }
+        
+        body {
+            background-color: var(--darker-bg);
+            color: #fff;
+            font-family: 'Exo 2', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Video Background */
+        #video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -100;
+            opacity: 1.0;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10, 10, 30, 0.9), rgba(5, 5, 20, 0.95));
+            z-index: -99;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: rgba(10, 10, 30, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 1.2rem;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-cyan);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+        
+        .nav-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        /* Mobile Navigation */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 101;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--neon-cyan);
+            margin: 3px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        /* Header */
+        .archive-header {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            position: relative;
+        }
+        
+        .archive-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        }
+        
+        .archive-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            color: #a0a0d0;
+        }
+        
+        /* Year Filter */
+        .year-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem 2rem 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .year-btn {
+            padding: 0.8rem 1.8rem;
+            background: transparent;
+            border: 1.5px solid var(--neon-blue);
+            color: var(--neon-cyan);
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .year-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: rgba(0, 243, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        
+        .year-btn:hover:before {
+            width: 100%;
+        }
+        
+        .year-btn.active {
+            background: rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+        
+        /* Gallery */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .gallery-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            height: 280px;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 10px 25px rgba(0, 243, 255, 0.2);
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-content {
+            padding: 1.2rem;
+        }
+        
+        .gallery-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+        }
+        
+        .gallery-desc {
+            color: #a0a0d0;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .gallery-year {
+            display: inline-block;
+            background: rgba(0, 243, 255, 0.15);
+            color: var(--neon-cyan);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 0 8px rgba(0, 243, 255, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(5, 5, 15, 0.9);
+            padding: 3rem 2rem;
+            margin-top: 5rem;
+            text-align: center;
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-links a {
+            color: #a0a0d0;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+        
+        .copyright {
+            color: #a0a0d0;
+            font-size: 1rem;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px var(--neon-blue); }
+            50% { box-shadow: 0 0 20px var(--neon-blue); }
+            100% { box-shadow: 0 0 5px var(--neon-blue); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(10, 10, 30, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: left 0.4s ease;
+                z-index: 99;
+                padding: 2rem;
+            }
+            
+            .nav-links.active {
+                left: 0;
+                box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+            }
+            
+            .nav-links li {
+                margin: 1.5rem 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-links a {
+                font-size: 1.3rem;
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            .archive-header h1 {
+                font-size: 2.8rem;
+            }
+            
+            .archive-header {
+                padding: 3rem 1.5rem 2rem;
+            }
+            
+            .year-filter {
+                padding: 1rem 1rem 2rem;
+            }
+            
+            .gallery-container {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            nav {
+                padding: 1rem 5%;
+            }
+            
+            .archive-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .archive-header p {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .year-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            
+            .year-filter {
+                gap: 0.6rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .gallery-item {
+                height: auto;
+                min-height: 250px;
+            }
+            
+            .gallery-content {
+                padding: 1rem;
+            }
+            
+            .gallery-title {
+                font-size: 1.1rem;
+            }
+            
+            .gallery-desc {
+                font-size: 0.9rem;
+            }
+            
+            footer {
+                padding: 2rem 1rem;
+            }
+            
+            .social-links {
+                gap: 1rem;
+            }
+            
+            .social-links a {
+                font-size: 1.3rem;
+            }
+            
+            .copyright {
+                font-size: 0.9rem;
+            }
+            
+            .nav-links {
+                width: 80%;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .archive-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .year-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .gallery-title {
+                font-size: 1rem;
+            }
+            
+            .nav-links a {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <video autoplay muted loop id="video-bg">
+        <source src="fighterjet1.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="brand">
+            <div class="logo" aria-hidden="true">
+                <img src="logo1.png" width="75px" alt="STES-STALLION AERO Logo">
+            </div>
+            <div class="title">Stallion Aero</div>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="achievements.html">Achievements</a></li>
+            <li><a href="domains.html">Domains</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="#" style="color: var(--neon-cyan);">Archives</a></li>
+            <li><a href="joinus.html">Join Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <section class="archive-header">
+        <h1>COMPETITION ARCHIVES</h1>
+        <p>Explore our journey through the years of innovation, challenges, and triumphs in aerospace engineering competitions</p>
+    </section>
+
+    <!-- Year Filter -->
+    <div class="year-filter">
+        <button class="year-btn active" data-year="all">All Years</button>
+        <button class="year-btn" data-year="2023-24">2023-24</button>
+        <button class="year-btn" data-year="2022-23">2022-23</button>
+        <button class="year-btn" data-year="2019-20">2019-20</button>
+        <button class="year-btn" data-year="2018-19">2018-19</button>
+        <button class="year-btn" data-year="2017-18">2017-18</button>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery-container">
+        <div class="gallery-grid" id="competition-gallery">
+            <!-- Competition items will be generated here -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://x.com/StallionAero?t=SZIYeR9kGRstU4BbfdK1zw&s=09"><i class="fab fa-twitter"></i></a>
+                <a href="https://linkedin.com/company/stallionaero"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://instagram.com/stallionaero"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/channel/UCi0ljdkNgHEVhnxodhhnMng"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p class="copyright">© 2025 STALLION AERO. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data for competitions
+        const competitionData = [
+            { 
+                id: 1, 
+                year: "2023-24", 
+                title: "VAYUVEER 2.0 Design", 
+                description: "Placed 4th in the Overall Micro-Class Category", 
+                image: "vayuveer2.0.jpg" 
+            },
+            { 
+                id: 2, 
+                year: "2023-24", 
+                title: "Team Photo of STES Stallion Aero Season 2023-24", 
+                description: "Secured AIR 4 in SAE DDC India", 
+                image: "2022-23.jpg" 
+            },
+            { 
+                id: 3, 
+                year: "2022-23", 
+                title: "TechFest IIT Bombay", 
+                description: "Team Participated TechFest for AERO-Drone Competition", 
+                image: "techfest22-23.jpg" 
+            },
+            { 
+                id: 4, 
+                year: "2022-23", 
+                title: "VAYUVEER 1.0", 
+                description: "Stallion Aero team of season 2022-23", 
+                image: "sae22-23.png"
+            },
+            { 
+                id: 5, 
+                year: "2019-20", 
+                title: "UAV Forge Competition", 
+                description: "Innovation award for novel propulsion system", 
+                image: "sae19-20.jpg" 
+            },
+            { 
+                id: 6, 
+                year: "2019-20", 
+                title: "Green Flight Challenge", 
+                description: "Efficiency award for hybrid-electric system", 
+                image: "stesaero19-20.jpg" 
+            },
+            { 
+                id: 7, 
+                year: "2018-19", 
+                title: "Air Cargo Challenge", 
+                description: "Best payload design award", 
+                image: "aero18-19.jpg" 
+            },
+            { 
+                id: 8, 
+                year: "2017-18", 
+                title: "Boeing Aerodynamics Competition", 
+                description: "Most innovative wing design", 
+                image: "sae17-18.jpg" 
+            }
+        ];
+
+        // Function to generate gallery items
+        function generateGallery(items) {
+            const container = document.getElementById('competition-gallery');
+            container.innerHTML = '';
+            
+            items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'gallery-item pulse';
+                itemElement.dataset.year = item.year;
+                
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">${item.title}</h3>
+                        <p class="gallery-desc">${item.description}</p>
+                        <span class="gallery-year">${item.year}</span>
+                    </div>
+                `;
+                
+                container.appendChild(itemElement);
+            });
+        }
+
+        // Initialize the gallery
+        generateGallery(competitionData);
+
+        // Year filter functionality
+        const yearButtons = document.querySelectorAll('.year-btn');
+        
+        yearButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                yearButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const selectedYear = button.dataset.year;
+                
+                // Filter competitions
+                const filteredCompetitions = selectedYear === 'all' 
+                    ? competitionData 
+                    : competitionData.filter(item => item.year === selectedYear);
+                
+                // Regenerate gallery with filtered data
+                generateGallery(filteredCompetitions);
+            });
+        });
+
+        // Mobile menu functionality
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (navLinks.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('active') && 
+                !navLinks.contains(e.target) && 
+                !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Add video background fallback
+        window.addEventListener('load', function() {
+            const video = document.getElementById('video-bg');
+            if (video && video.readyState >= 3) {
+                video.play().catch(e => {
+                    console.log("Video autoplay prevented: ", e);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

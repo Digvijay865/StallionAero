@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.png" type="image/x-icon">
+
+    <title>Stallion Aero - Join Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-cyan: #00f7ff;
+            --neon-purple: #bd00ff;
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050510;
+            --card-bg: rgba(15, 15, 35, 0.85);
+            --text-color: #ffffff;
+            --text-secondary: #c0c0ff;
+        }
+        
+        body {
+            background-color: var(--darker-bg);
+            color: var(--text-color);
+            font-family: 'Exo 2', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Video Background */
+        #video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -100;
+            opacity: 0.7;
+            object-fit: cover;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10, 10, 30, 0.6), rgba(5, 5, 20, 0.7));
+            z-index: -99;
+        }
+        
+        /* Improved Navigation */
+        nav {
+            background-color: rgba(10, 10, 30, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 1rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-cyan);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+        
+        .nav-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a.active {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+        
+        .nav-links a.active:after {
+            width: 100%;
+        }
+        
+        /* Mobile menu button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--neon-cyan);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 101;
+        }
+        
+        /* Join Us Content */
+        .join-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        
+        .form-section {
+            background: rgba(15, 15, 35, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.1);
+        }
+        
+        .form-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--neon-cyan);
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--neon-cyan);
+            font-weight: 500;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            background: rgba(10, 10, 25, 0.7);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 5px;
+            color: white;
+            font-family: 'Exo 2', sans-serif;
+            transition: all 0.3s ease;
+            font-size: 16px; /* Prevents zoom on iOS */
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+            border-radius: 30px;
+            cursor: pointer;
+            display: block;
+            margin: 2rem auto 0;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.4);
+        }
+        
+        .domains-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .domain-card {
+            background: rgba(15, 15, 35, 0.8);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .domain-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.2);
+        }
+        
+        .domain-icon {
+            font-size: 2.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+        }
+        
+        .domain-title {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .domain-desc {
+            color: #a0a0d0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Improved Footer */
+        footer {
+            background: rgba(5, 5, 15, 0.95);
+            padding: 3rem 1rem 1.5rem;
+            margin-top: 5rem;
+            text-align: center;
+            border-top: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            padding-top: 1.5rem;
+            width: 100%;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                flex-direction: column;
+                background-color: rgba(10, 10, 30, 0.98);
+                backdrop-filter: blur(10px);
+                width: 70%;
+                height: 100vh;
+                text-align: left;
+                transition: 0.4s;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+                padding: 6rem 2rem 2rem;
+                z-index: 99;
+                overflow-y: auto;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 1.2rem 0;
+            }
+            
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 0.8rem 0;
+                display: block;
+            }
+            
+            .domains-section {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .join-container {
+                margin: 1rem auto;
+                padding: 0.5rem;
+            }
+            
+            .form-section {
+                padding: 1.5rem;
+            }
+            
+            .form-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .brand {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .title {
+                font-size: 1.2rem;
+            }
+            
+            .logo img {
+                height: 40px;
+            }
+            
+            .form-section {
+                padding: 1.2rem;
+            }
+            
+            .form-title {
+                font-size: 1.6rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .form-input, .form-select, .form-textarea {
+                padding: 0.7rem 1rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .social-links {
+                gap: 1rem;
+            }
+            
+            .social-links a {
+                font-size: 1.3rem;
+            }
+            
+            .domain-card {
+                padding: 1.2rem;
+            }
+            
+            .domain-icon {
+                font-size: 2rem;
+            }
+            
+            .domain-title {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            nav {
+                padding: 0.8rem 4%;
+            }
+            
+            .title {
+                font-size: 1.1rem;
+            }
+            
+            .logo img {
+                height: 35px;
+            }
+            
+            .form-title {
+                font-size: 1.4rem;
+            }
+            
+            .submit-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Prevent horizontal scrolling */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <video autoplay muted loop id="video-bg">
+        <source src="fighterjet1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <!-- Improved Navigation -->
+    <nav>
+        <div class="brand">
+            <div class="logo">
+                <img src="logo1.png" alt="STES-STALLION AERO Logo">
+            </div>
+            <div class="title">Stallion Aero</div>
+        </div>
+        
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation menu">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="achievements.html">Achievements</a></li>
+            <li><a href="domains.html">Domains</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="archives.html">Archives</a></li>
+            <li><a href="#" class="active">Join Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Join Us Content -->
+    <section class="join-container">
+        <div class="form-section">
+            <h2 class="form-title">JOIN OUR TEAM</h2>
+            <form id="join-form">
+                <div class="form-group">
+                    <label class="form-label" for="name">Full Name</label>
+                    <input type="text" id="name" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="domain">Domain of Interest</label>
+                    <select id="domain" class="form-select" required>
+                        <option value="">Select a domain</option>
+                        <option value="avionics">Avionics</option>
+                        <option value="analysis">Analysis</option>
+                        <option value="non-tech">Non-Tech</option>
+                        <option value="design">Design</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="message">Why do you want to join Stallion Aero?</label>
+                    <textarea id="message" class="form-textarea" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+        
+        <div class="domains-section">
+            <div class="domain-card">
+                <div class="domain-icon">
+                    <i class="fas fa-satellite"></i>
+                </div>
+                <h3 class="domain-title">Avionics</h3>
+                <p class="domain-desc">Advanced flight electronics and systems development</p>
+            </div>
+            
+            <div class="domain-card">
+                <div class="domain-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="domain-title">Analysis</h3>
+                <p class="domain-desc">Research, testing, and performance data analysis</p>
+            </div>
+            
+            <div class="domain-card">
+                <div class="domain-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="domain-title">Non-Tech</h3>
+                <p class="domain-desc">Operations, outreach, and event management</p>
+            </div>
+            
+            <div class="domain-card">
+                <div class="domain-icon">
+                    <i class="fas fa-drafting-compass"></i>
+                </div>
+                <h3 class="domain-title">Design</h3>
+                <p class="domain-desc">Concept design, CAD, and aerospace modeling</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Improved Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="achievements.html">Achievements</a>
+                <a href="archives.html">Projects</a>
+                <a href="domains.html">Domains</a>
+                <a href="index.html">Contact</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="https://x.com/StallionAero?t=SZIYeR9kGRstU4BbfdK1zw&s=09"><i class="fab fa-twitter"></i></a>
+                <a href="https://linkedin.com/company/stallionaero"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://instagram.com/stallionaero"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/channel/UCi0ljdkNgHEVhnxodhhnMng"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <p class="copyright">© 2023 STALLION AERO. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const body = document.body;
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const isActive = navLinks.classList.contains('active');
+            menuBtn.innerHTML = isActive ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                
+            // Prevent body scrolling when menu is open
+            if (isActive) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = 'auto';
+            }
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('active') && 
+                !e.target.closest('#navLinks') && 
+                !e.target.closest('#menuBtn')) {
+                navLinks.classList.remove('active');
+                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                body.style.overflow = 'auto';
+            }
+        });
+        
+        // Close menu when clicking on links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                body.style.overflow = 'auto';
+            });
+        });
+        
+        // Form submission handling
+        document.getElementById('join-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to a server
+            // For now, we'll just show an alert
+            alert('Application submitted successfully! We will contact you soon.');
+            this.reset();
+        });
+        
+        // Add video background fallback and mobile handling
+        window.addEventListener('load', function() {
+            const video = document.getElementById('video-bg');
+            if (video) {
+                // For mobile devices, set playsinline to prevent fullscreen playback
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                
+                // Try to play the video
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        // Auto-play was prevented, show fallback background
+                        console.log('Video autoplay prevented:', error);
+                        video.style.display = 'none';
+                    });
+                }
+            }
+        });
+        
+        // Handle orientation changes
+        window.addEventListener('orientationchange', function() {
+            // Refresh the page on orientation change for better layout
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 200);
+        });
+    </script>
+</body>
+</html>
